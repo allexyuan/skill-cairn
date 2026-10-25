@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="100%" height="100%" role="img" aria-labelledby="title desc">
+  <title id="title">Skill Cairn</title>
+  <desc id="desc">A warm stone cairn beneath a teal north star, symbolising small lessons accumulating into lasting direction.</desc>
+  <defs>
+    <linearGradient id="background" x1="140" y1="80" x2="884" y2="944" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#07111F"/>
+      <stop offset="0.58" stop-color="#10243A"/>
+      <stop offset="1" stop-color="#173B4A"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0" cy="0" r="1" gradientTransform="translate(512 525) rotate(90) scale(390)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#49D7C5" stop-opacity="0.18"/>
+      <stop offset="0.58" stop-color="#49D7C5" stop-opacity="0.04"/>
+      <stop offset="1" stop-color="#49D7C5" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="stoneTop" x1="443" y1="366" x2="585" y2="506" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF0B5"/>
+      <stop offset="0.48" stop-color="#EBC573"/>
+      <stop offset="1" stop-color="#C18A43"/>
+    </linearGradient>
+    <linearGradient id="stoneMiddle" x1="335" y1="515" x2="700" y2="681" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F5D68F"/>
+      <stop offset="0.5" stop-color="#DBA65A"/>
+      <stop offset="1" stop-color="#A96832"/>
+    </linearGradient>
+    <linearGradient id="stoneBase" x1="250" y1="669" x2="782" y2="848" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EBC677"/>
+      <stop offset="0.55" stop-color="#C78B45"/>
+      <stop offset="1" stop-color="#85502B"/>
+    </linearGradient>
+    <linearGradient id="star" x1="468" y1="216" x2="558" y2="314" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#D9FFFA"/>
+      <stop offset="1" stop-color="#58DCCB"/>
+    </linearGradient>
+    <filter id="shadow" x="160" y="310" width="704" height="620" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#02070D" flood-opacity="0.44"/>
+    </filter>
+    <filter id="starGlow" x="392" y="154" width="240" height="240" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="13"/>
+    </filter>
+  </defs>
+
+  <rect x="48" y="48" width="928" height="928" rx="224" fill="url(#background)"/>
+  <rect x="49.5" y="49.5" width="925" height="925" rx="222.5" fill="none" stroke="#A5FFF2" stroke-opacity="0.12" stroke-width="3"/>
+  <rect x="48" y="48" width="928" height="928" rx="224" fill="url(#halo)"/>
+
+  <g fill="none" stroke="#7EE8DA" stroke-opacity="0.10" stroke-width="2">
+    <path d="M151 713C235 607 255 457 424 382C574 315 702 303 856 391"/>
+    <path d="M126 760C236 643 264 497 433 425C590 358 737 352 888 444"/>
+    <path d="M176 667C250 573 274 435 424 366C560 304 678 291 827 361"/>
+  </g>
+
+  <g opacity="0.88">
+    <circle cx="512" cy="349" r="7" fill="#7BEDDD"/>
+    <circle cx="512" cy="322" r="4.5" fill="#7BEDDD" opacity="0.7"/>
+    <circle cx="512" cy="300" r="3" fill="#7BEDDD" opacity="0.48"/>
+  </g>
+
+  <path d="M512 181L536 244L599 268L536 292L512 355L488 292L425 268L488 244L512 181Z" fill="#49D7C5" opacity="0.35" filter="url(#starGlow)"/>
+  <path d="M512 181L536 244L599 268L536 292L512 355L488 292L425 268L488 244L512 181Z" fill="url(#star)"/>
+  <circle cx="512" cy="268" r="12" fill="#F5FFFC"/>
+
+  <g filter="url(#shadow)">
+    <path d="M402 427C429 405 478 389 527 390C570 391 613 405 642 432C669 458 659 499 625 520C578 549 474 553 420 531C383 516 374 456 402 427Z" fill="url(#stoneTop)"/>
+    <path d="M421 442C458 420 509 410 554 416C581 420 604 429 620 441" fill="none" stroke="#FFF2BE" stroke-opacity="0.72" stroke-width="9" stroke-linecap="round"/>
+
+    <path d="M309 558C365 522 446 505 520 507C598 509 671 529 719 567C754 594 744 647 697 672C601 724 407 719 307 671C267 651 275 579 309 558Z" fill="url(#stoneMiddle)"/>
+    <path d="M340 570C399 543 462 536 527 541C581 545 628 557 665 576" fill="none" stroke="#FFE6A7" stroke-opacity="0.54" stroke-width="9" stroke-linecap="round"/>
+
+    <path d="M229 716C292 677 391 652 515 652C641 652 745 677 793 719C826 748 811 807 758 833C654 884 367 884 260 836C207 812 196 747 229 716Z" fill="url(#stoneBase)"/>
+    <path d="M269 727C342 696 427 682 519 682C613 682 696 697 755 724" fill="none" stroke="#FFF0BB" stroke-opacity="0.48" stroke-width="10" stroke-linecap="round"/>
+  </g>
+
+  <path d="M266 789C366 819 661 826 767 783" fill="none" stroke="#090F19" stroke-opacity="0.28" stroke-width="16" stroke-linecap="round"/>
+</svg>
+

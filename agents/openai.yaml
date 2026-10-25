@@ -1,0 +1,10 @@
+interface:
+  display_name: "Skill Cairn"
+  short_description: "Turn sessions and projects into reusable knowledge"
+  icon_small: "./assets/icon-400.png"
+  icon_large: "./assets/icon.svg"
+  brand_color: "#D9A85B"
+  default_prompt: "Use $skill-cairn to extract evidence-backed knowledge cards from this session and identify skill candidates."
+
+policy:
+  allow_implicit_invocation: true

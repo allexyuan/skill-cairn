@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "paths": {
+    "inbox": "00-Inbox",
+    "knowledge": "10-Knowledge",
+    "sop": "20-SOP",
+    "skill_candidates": "30-Skill-Candidates",
+    "maps": "90-Map"
+  },
+  "tags": {
+    "domains": [
+      "development",
+      "operations",
+      "product",
+      "research",
+      "personal"
+    ],
+    "types": [
+      "fact",
+      "decision",
+      "troubleshooting",
+      "procedure",
+      "learning"
+    ],
+    "statuses": [
+      "unverified",
+      "verified",
+      "stale"
+    ],
+    "max_per_card": 5,
+    "verified_status": "verified"
+  },
+  "promotion": {
+    "min_cards": 3,
+    "min_verified_cards": 2,
+    "min_unique_sources": 2,
+    "require_reusable": true
+  }
+}
+
