@@ -34,13 +34,16 @@ SOP / Skill 草稿
 人工审阅与后续处理
 ```
 
-工具只做确定性检查；提炼内容和判断哪条知识值得保留仍由 Agent 与用户共同完成。
+工具负责确定性检查和可解释的自动建议；Agent 负责拆出知识单元。高置信度结果直接处理，中低置信度结果进入批量复核队列，人工只处理例外和高风险动作。
 
 ## 核心特性
 
 - 本地优先：知识库是普通 Markdown 文件，可用 Obsidian、VS Code 或 Git 管理。
 - 证据可追溯：知识卡必须记录来源、适用范围和验证方式。
 - 标签受控：卡片只能使用配置中登记的领域、类型和状态。
+- 自动建议：结合标签 aliases、内容关键词和历史相似卡片，给出标签、状态及置信度。
+- 批量复核：不确定结果进入 `00-Inbox/review-queue.jsonl`，不逐卡阻塞用户。
+- 语义去重：用文本与中文 n-gram 相似度发现可能重复的卡片。
 - 晋升门禁：重复出现且有验证证据的经验，才会成为 Skill 候选。
 - 无第三方依赖：脚本仅使用 Python 标准库。
 - 独立可移植：不依赖特定生成或优化工具，导出的 Skill 草稿是标准 Markdown。
@@ -70,10 +73,34 @@ my-knowledge/
 └── 90-Map/
 ```
 
-把知识卡写入 `10-Knowledge/`，然后校验：
+为待归档文本生成建议。输入可以是 Markdown 卡片草稿或普通文本：
+
+```bash
+python scripts/cairn.py suggest \
+  --vault ./my-knowledge \
+  --input ./draft-card.md \
+  --topic-hint docker-macvlan-routing \
+  --queue \
+  --json
+```
+
+高置信度建议直接用于卡片；中低置信度分析会进入复核队列。把知识卡写入 `10-Knowledge/` 后运行校验：
 
 ```bash
 python scripts/cairn.py validate --vault ./my-knowledge
+```
+
+检查语义相近、可能重复的卡片：
+
+```bash
+python scripts/cairn.py dedupe --vault ./my-knowledge --json
+```
+
+批量查看并导出待复核建议：
+
+```bash
+python scripts/cairn.py review --vault ./my-knowledge
+python scripts/cairn.py review --vault ./my-knowledge --write
 ```
 
 查找通过晋升门槛的主题：
@@ -188,11 +215,11 @@ $skill-cairn 把这次会话提炼成知识卡，并判断是否有 Skill 候选
 python -m unittest discover -s tests -v
 ```
 
-测试覆盖初始化、标签校验、晋升判断、草稿导出和防覆盖行为。
+测试覆盖初始化、标签校验、标签建议、置信度队列、语义去重、晋升判断、草稿导出和防覆盖行为。
 
 ## 项目状态
 
-当前版本为 `0.2.0`，属于可运行的 MVP。它已经验证本地知识库初始化与确定性工作流，但 Skill 草稿仍需要人工审阅和进一步完善。
+当前版本为 `0.3.0`，属于可运行的 MVP。它增加了标签建议、置信度分级、相似卡片检索、重复检测和批量复核；Skill 草稿仍需要人工审阅和进一步完善。
 
 ## 设计参考
 

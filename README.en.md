@@ -38,13 +38,16 @@ SOP / Skill draft
 Human review and downstream use
 ```
 
-The tools perform deterministic checks. The Agent and the user still decide which knowledge is worth keeping.
+The tools perform deterministic checks and explainable suggestions. The Agent separates knowledge units. High-confidence results are applied directly, medium- and low-confidence results enter a batch review queue, and people handle exceptions and high-risk actions.
 
 ## Features
 
 - Local-first Markdown vaults compatible with Obsidian, VS Code, and Git.
 - Evidence-backed cards with source, applicability, and verification fields.
 - Controlled tags for domains, card types, and statuses.
+- Explainable suggestions for topic, tags, status, and related cards using configured aliases, text signals, and card similarity.
+- A local review queue for uncertain classifications instead of per-card confirmation.
+- Semantic duplicate detection using text and CJK n-gram similarity.
 - A promotion gate that prevents weak or one-off experiences from becoming Skills.
 - Standard-library-only Python scripts.
 - Independent and portable: no dependency on a specific generation or optimization tool, and drafts are standard Markdown.
@@ -74,10 +77,34 @@ my-knowledge/
 └── 90-Map/
 ```
 
-Write cards under `10-Knowledge/`, then validate the vault:
+Generate suggestions for a card draft or plain text:
+
+```bash
+python scripts/cairn.py suggest \
+  --vault ./my-knowledge \
+  --input ./draft-card.md \
+  --topic-hint docker-macvlan-routing \
+  --queue \
+  --json
+```
+
+High-confidence suggestions can be applied directly; uncertain analyses enter the review queue. After writing cards under `10-Knowledge/`, validate the vault:
 
 ```bash
 python scripts/cairn.py validate --vault ./my-knowledge
+```
+
+Find semantically similar cards:
+
+```bash
+python scripts/cairn.py dedupe --vault ./my-knowledge --json
+```
+
+Inspect or export the pending review queue:
+
+```bash
+python scripts/cairn.py review --vault ./my-knowledge
+python scripts/cairn.py review --vault ./my-knowledge --write
 ```
 
 Find topics that pass the promotion gate:
@@ -188,11 +215,11 @@ Skill documentation:
 python -m unittest discover -s tests -v
 ```
 
-The suite covers initialization, tag validation, promotion checks, draft export, and overwrite protection.
+The suite covers initialization, tag validation, suggestion confidence, review queuing, semantic deduplication, promotion checks, draft export, and overwrite protection.
 
 ## Status
 
-Version `0.2.0` is a functional MVP. Local initialization and deterministic workflows are tested; generated Skill drafts still require human review and refinement.
+Version `0.3.0` is a functional MVP. It adds tag suggestions, confidence tiers, related-card retrieval, duplicate detection, and batch review. Generated Skill drafts still require human review and refinement.
 
 ## Acknowledgements
 

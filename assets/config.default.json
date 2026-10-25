@@ -1,11 +1,13 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "paths": {
     "inbox": "00-Inbox",
     "knowledge": "10-Knowledge",
     "sop": "20-SOP",
     "skill_candidates": "30-Skill-Candidates",
-    "maps": "90-Map"
+    "maps": "90-Map",
+    "review_queue": "00-Inbox/review-queue.jsonl",
+    "review_report": "00-Inbox/review-report.md"
   },
   "tags": {
     "domains": [
@@ -29,6 +31,26 @@
     ],
     "max_per_card": 5,
     "verified_status": "verified"
+  },
+  "tagging": {
+    "aliases": {
+      "development": ["code", "api", "git", "python", "node", "javascript", "typescript", "test", "dependency", "repository", "代码", "接口", "开发", "测试", "依赖"],
+      "operations": ["server", "deploy", "docker", "linux", "network", "firewall", "systemd", "proxy", "route", "dns", "log", "部署", "服务器", "网络", "防火墙", "路由", "日志"],
+      "product": ["prd", "product", "user", "ui", "ux", "design", "requirement", "roadmap", "产品", "需求", "用户", "设计"],
+      "research": ["paper", "research", "study", "benchmark", "evidence", "experiment", "论文", "研究", "基准", "证据", "实验"],
+      "personal": ["journal", "health", "finance", "habit", "生活", "健康", "财务", "习惯"],
+      "fact": ["fact", "documented", "measured", "version", "command", "事实", "版本", "命令", "测量"],
+      "decision": ["decision", "decided", "choose", "tradeoff", "alternative", "决定", "选择", "权衡", "备选"],
+      "troubleshooting": ["error", "issue", "failed", "failure", "bug", "symptom", "fix", "root cause", "错误", "问题", "失败", "故障", "根因", "修复"],
+      "procedure": ["procedure", "workflow", "steps", "runbook", "execute", "流程", "步骤", "操作", "执行"],
+      "learning": ["concept", "learned", "lesson", "understand", "explanation", "概念", "学习", "理解", "解释", "教训"],
+      "unverified": ["hypothesis", "unverified", "unknown", "untested", "pending", "todo", "假设", "未验证", "未知", "待确认"],
+      "verified": ["verified", "confirmed", "fixed", "resolved", "passed", "success", "works", "已验证", "已确认", "已修复", "已解决", "通过", "成功"],
+      "stale": ["stale", "outdated", "deprecated", "obsolete", "过时", "废弃", "已归档"]
+    },
+    "auto_apply_threshold": 0.85,
+    "queue_threshold": 0.55,
+    "dedupe_threshold": 0.62
   },
   "promotion": {
     "min_cards": 3,

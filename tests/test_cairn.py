@@ -209,8 +209,73 @@ Run the connectivity check twice after applying the change.
     def test_config_is_valid_json(self) -> None:
         config_path = self.vault / "_config" / "skill-cairn.json"
         config = json.loads(config_path.read_text(encoding="utf-8"))
-        self.assertEqual(config["schema_version"], 1)
+        self.assertEqual(config["schema_version"], 2)
         self.assertEqual(config["tags"]["verified_status"], "verified")
+        self.assertIn("aliases", config["tagging"])
+
+    def test_suggest_uses_aliases_and_evidence(self) -> None:
+        text = (
+            "Docker server linux network firewall proxy route error failed "
+            "bug symptom root cause verified confirmed fixed passed."
+        )
+        analysis = cairn.analyze_text(
+            self.vault,
+            text,
+            topic_hint="docker-forwarding-fix",
+        )
+        self.assertEqual(analysis["topic"], "docker-forwarding-fix")
+        self.assertEqual(analysis["best"]["domain"]["tag"], "operations")
+        self.assertEqual(analysis["best"]["type"]["tag"], "troubleshooting")
+        self.assertEqual(analysis["best"]["status"]["tag"], "verified")
+        self.assertTrue(analysis["can_auto_apply"])
+
+    def test_suggest_queues_uncertain_analysis_once(self) -> None:
+        text = "An unclear observation without a stable classification."
+        analysis = cairn.analyze_text(
+            self.vault,
+            text,
+            topic_hint="unclear-observation",
+        )
+        self.assertTrue(analysis["review_required"])
+        config = cairn.load_config(self.vault)
+        queue_path, first = cairn.append_review_queue(
+            self.vault,
+            config,
+            "sample-input.md",
+            text,
+            analysis,
+        )
+        _, second = cairn.append_review_queue(
+            self.vault,
+            config,
+            "sample-input.md",
+            text,
+            analysis,
+        )
+        self.assertTrue(first)
+        self.assertFalse(second)
+        self.assertTrue(queue_path.is_file())
+        entries = cairn.read_review_queue(self.vault, config)
+        self.assertEqual(len(entries), 1)
+        self.assertIn("unclear-observation", cairn.render_review_report(entries))
+
+    def test_dedupe_finds_similar_cards(self) -> None:
+        self.write_card(
+            "routing-a.md",
+            title="Routing evidence A",
+            topic="docker-routing",
+            source="session-a",
+        )
+        self.write_card(
+            "routing-b.md",
+            title="Routing evidence B",
+            topic="docker-routing-two",
+            source="session-b",
+        )
+        validation = cairn.validate_vault(self.vault)
+        pairs = cairn.find_duplicate_pairs(validation["cards"], threshold=0.5)
+        self.assertEqual(len(pairs), 1)
+        self.assertGreaterEqual(pairs[0]["similarity"], 0.5)
 
 
 if __name__ == "__main__":
