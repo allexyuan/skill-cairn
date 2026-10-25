@@ -435,6 +435,9 @@ def analyze_text(
     cards = validation["cards"]
     tagging = config.get("tagging", {})
     aliases = tagging.get("aliases", {})
+    if not aliases:
+        default_config = json.loads(read_text(DEFAULT_CONFIG_ASSET))
+        aliases = default_config.get("tagging", {}).get("aliases", {})
     auto_threshold = float(
         tagging.get("auto_apply_threshold", DEFAULT_TAGGING["auto_apply_threshold"])
     )

@@ -229,6 +229,23 @@ Run the connectivity check twice after applying the change.
         self.assertEqual(analysis["best"]["status"]["tag"], "verified")
         self.assertTrue(analysis["can_auto_apply"])
 
+    def test_suggest_uses_default_aliases_for_legacy_config(self) -> None:
+        config_path = self.vault / "_config" / "skill-cairn.json"
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+        config["schema_version"] = 1
+        config.pop("tagging", None)
+        config_path.write_text(
+            json.dumps(config, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
+        analysis = cairn.analyze_text(
+            self.vault,
+            "Docker network firewall error failed and fixed.",
+            topic_hint="legacy-docker-fix",
+        )
+        self.assertEqual(analysis["best"]["domain"]["tag"], "operations")
+        self.assertEqual(analysis["best"]["type"]["tag"], "troubleshooting")
+
     def test_suggest_queues_uncertain_analysis_once(self) -> None:
         text = "An unclear observation without a stable classification."
         analysis = cairn.analyze_text(

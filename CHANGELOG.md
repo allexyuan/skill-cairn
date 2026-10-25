@@ -7,7 +7,7 @@
 - Added a deduplicated JSONL review queue and batch review reports.
 - Added semantic card-similarity and duplicate-pair detection.
 - Added automatic application guidance for high-confidence classifications while preserving confirmation for destructive or publication actions.
-- Expanded the test suite to 11 tests.
+- Expanded the test suite to 12 tests, including legacy-config alias fallback.
 
 ## 0.2.0 - 2026-10-25
 
